@@ -5,7 +5,7 @@ const tours = JSON.parse(
 )
 
 exports.checkID = (req, res, next, val) => {
-    if (+req.params.id > tours.length)
+    if (+val > tours.length)
         return res
             .status(404)
             .json({ status: 'failure', message: 'Invalid ID' })
@@ -34,13 +34,13 @@ exports.getTour = (req, res) => {
 
     res.status(200).json({
         status: 'success',
-        tour,
+        data: { tour },
     })
 }
 
 exports.createTour = (req, res) => {
     const newId = tours[tours.length - 1].id + 1
-    const newTour = Object.assign({ id: newId }, req.body)
+    const newTour = Object.assign(req.body, { id: newId })
 
     tours.push(newTour)
 
